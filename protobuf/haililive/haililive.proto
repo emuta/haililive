@@ -1,0 +1,185 @@
+syntax = "proto3";
+
+package haililive.protobuf.haililive;
+
+option go_package="github.com/emuta/haililive/protobuf/haililive;haililive";
+
+import "google/protobuf/timestamp.proto";
+
+service HaiLiLiveService {
+    // 实时行情数据
+    rpc CreateReportV3(CreateReportV3Request) returns(Response) {}
+
+    // 分笔交易数据
+    rpc CreateTick(CreateTickRequest) returns(Response) {}
+
+    // 市场码表数据
+    rpc CreateMarket(CreateMarketRequest) returns(Response) {}
+
+    // 金融财务信息
+    rpc CreateFinance(CreateFinanceRequest) returns(Response) {}
+
+    // 文件: 历史交易 日线数据
+    rpc CreateFileHistory(CreateFileHistoryRequest) returns(Response) {}
+
+    // 文件: 分钟线数据
+    rpc CreateFileMinute(CreateFileMinuteRequest) returns(Response) {}
+
+    // 文件: 历史五分钟K线数据
+    rpc CreateFileHISMinute(CreateFileHISMinuteRequest) returns(Response) {}
+
+    // 文件: 除权数据
+    rpc CreateFilePower(CreateFilePowerRequest) returns(Response) {}
+
+    // 文件: 钱龙兼容基本资料文件
+    rpc CreateFileBase(CreateFileBaseRequest) returns(Response) {}
+
+    // 文件: 新闻类
+    rpc CreateFileNews(CreateFileNewsRequest) returns(Response) {}
+}
+
+message Response {
+    bool success = 1;
+}
+
+message CreateReportV3Request {
+    google.protobuf.Timestamp  timestamp = 1;
+    int32  market_id = 2;
+    string code = 3;
+    string name = 4;
+    float  open = 5;
+    float  close = 6;
+    float  high = 7;
+    float  low = 8;
+    float  last = 9; // 最新价
+    float  volume = 10;
+    float  amount = 11;
+    // 五档买卖行情
+    repeated float buy_price = 12;
+    repeated float buy_volume = 13;
+    repeated float sell_price = 14;
+    repeated float sell_volume = 15;
+}
+
+message CreateTickRequest {
+    google.protobuf.Timestamp  timestamp = 1;
+    int32  market_id = 2;
+    string code = 3;  
+    float  open = 4;  // 今开
+    float  close = 5; // 昨收
+    float  high = 6;  // 最高
+    float  low = 7;   // 最低
+    float  last = 8;  // 最新价
+    // 五档买卖行情
+    repeated float buy_price = 9;
+    repeated float buy_volume = 10;
+    repeated float sell_price = 11;
+    repeated float sell_volume = 12;
+}
+
+message CreateMarketRequest {
+    string code = 1;
+    string name = 2;
+    int32 market_id = 3;
+    int32 date = 4;
+}
+
+message CreateFinanceRequest {
+    int32 market = 1;
+    string code = 2;
+    int64 BGRQ = 3; // 财务数据的日期 如半年报 季报等 如 20090630 表示 2009年半年报
+    // map<string, float> attr = 4;
+    float  ZGB = 4;             // 总股本
+    float  GJG = 5;             // 国家股
+    float  FQFRG = 6;           // 发起人法人股
+    float  FRG = 7;             // 法人股
+    float  BGS = 8;             // B股
+    float  HGS = 9;             // H股
+    float  MQLT = 10;            // 目前流通
+    float  ZGG = 11;             // 职工股
+    float  A2ZPG = 12;           // A2转配股
+    float  ZZC = 13;             // 总资产(千元)
+    float  LDZC = 14;            // 流动资产
+    float  GDZC = 15;            // 固定资产
+    float  WXZC = 16;            // 无形资产
+    float  CQTZ = 17;            // 长期投资
+    float  LDFZ = 18;            // 流动负债
+    float  CQFZ = 19;            // 长期负债
+    float  ZBGJJ = 20;           // 资本公积金
+    float  MGGJJ = 21;           // 每股公积金
+    float  GDQY = 22;            // 股东权益
+    float  ZYSR = 23;            // 主营收入
+    float  ZYLR = 24;            // 主营利润
+    float  QTLR = 25;            // 其他利润
+    float  YYLR = 26;            // 营业利润
+    float  TZSY = 27;            // 投资收益
+    float  BTSR = 28;            // 补贴收入
+    float  YYWSZ = 29;           // 营业外收支
+    float  SNSYTZ = 30;          // 上年损益调整
+    float  LRZE = 31;            // 利润总额
+    float  SHLR = 32;            // 税后利润
+    float  JLR = 33;             // 净利润
+    float  WFPLR = 34;           // 未分配利润
+    float  MGWFP = 35;           // 每股未分配
+    float  MGSY = 36;            // 每股收益
+    float  MGJZC = 37;           // 每股净资产
+    float  TZMGJZC = 38;         // 调整每股净资产
+    float  GDQYB = 39;           // 股东权益比
+    float  JZCSYL = 40;          // 净资收益率
+}
+
+message CreateFileHistoryRequest {
+    string code = 1;
+    google.protobuf.Timestamp  timestamp = 2;
+    float open = 3;
+    float close = 4;
+    float high = 5;
+    float low = 6;
+    float volume = 7;
+    float amount = 8;
+    float advance = 9;
+    float decline = 10;
+}
+
+message CreateFileMinuteRequest {
+    string code = 1;
+    google.protobuf.Timestamp  timestamp = 2;
+    float price = 3;
+    float volume = 4;
+    float amount = 5;
+}
+
+message CreateFileHISMinuteRequest {
+    string code = 1;
+    google.protobuf.Timestamp  timestamp = 2;
+    float open = 3;
+    float close = 4;
+    float high = 5;
+    float low = 6;
+    float volume = 7;
+    float amount = 8;
+    float actived_buy_volume = 9;
+}
+
+message CreateFilePowerRequest {
+    string code = 1;
+    google.protobuf.Timestamp  timestamp = 2;
+    float give = 3;   // 每股送股
+    float price = 4;  // 配股价
+    float volume = 5; // 每股配股
+    float profit = 6; // 每股红利
+}
+
+message CreateFileBaseRequest {
+    int64 attrib = 1;
+    int64 length = 2;
+    int64 serial_no = 3;
+    string file_name = 4;
+}
+
+message CreateFileNewsRequest {
+    int64 attrib = 1;     // 文件子类型
+    int64 length = 2;     // 文件长度
+    int64 serial_no = 3;  // 序列号
+    string file_name = 4; // 文件名 or URL
+}
